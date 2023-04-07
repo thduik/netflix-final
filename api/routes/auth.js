@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 //REGISTER
 router.post("/register", async (req, res) => {
-  const newUser = new User({
+   const newUser = new User({
     username: req.body.username,
     email: req.body.email,
     password: CryptoJS.AES.encrypt(
@@ -27,6 +27,7 @@ router.post("/register", async (req, res) => {
 
 //LOGIN
 router.post("/login", async (req, res) => {
+  console.log("login route hit")
   try {
     console.log("loginPOST res is: ", req.body, req.body.email)
     const user = await User.findOne({ email: req.body.email });

@@ -23,7 +23,7 @@ mongoose
   })
   .then(
     () => {
-      console.log("DB Connection Successfull")
+      console.log("MongoDB Connection Successfull")
       // addAdminSeed()
     }
     )
@@ -32,11 +32,26 @@ mongoose
   });
 
 app.use(express.json());
+app.use((req, res, next) => {
+  console.log('receivedReq')
+  console.log("protocol is: ", req.protocol)     // "https"
+  console.log("hostname is: ", req.hostname)     // "example.com"
+  console.log("path is: ", req.path)         // "/creatures"
+  console.log("originalUrl is: ", req.originalUrl)  // "/creatures?filter=sharks"
+  console.log("subdomains is: ", req.subdomains)   // "['ocean']"
+  console.log()
+  
+  next()
+})
+// app.use("/api/auth", authRoute);
+// app.use("/api/users", userRoute);
+// app.use("/api/movies", movieRoute);
+// app.use("/api/lists", listRoute);
 
 app.use("/api/auth", authRoute);
-app.use("/api/users", userRoute);
-app.use("/api/movies", movieRoute);
-app.use("/api/lists", listRoute);
+app.use("/users", userRoute);
+app.use("/movies", movieRoute);
+app.use("/lists", listRoute);
 
 app.listen(8800, () => {
   console.log("Backend server is running!");

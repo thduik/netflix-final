@@ -61,11 +61,7 @@ router.get("/find/:id", async (req, res) => {
 router.get("/", verify, async (req, res) => {
   console.log("userRoute get called")
   const query = req.query.new;
-  const hasUser = req.user ?? false;
   const isAdmin = false;
-  if (hasUser) {
-    isAdmin = req.user.isAdmin;
-  } 
 
   if (isAdmin) {
     try {
