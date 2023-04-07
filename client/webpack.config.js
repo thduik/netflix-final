@@ -1,7 +1,10 @@
 const path = require("path");
 const HWP = require("html-webpack-plugin");
+const webpack = require('webpack')
+
+
 module.exports = {
-  entry: path.join(__dirname, "/src/index.js"),
+  entry: path.join(__dirname, "/src/index.jsx"),
   output: {
     filename: "build.js",
     path: path.join(__dirname, "/dist"),
@@ -20,26 +23,23 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|gif)$/,
         loader: "file-loader",
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          "style-loader",
-          // Translates CSS into CommonJS
-          "css-loader",
-          // Compiles Sass to CSS
-          "sass-loader",
-        ],
       }
     ],
   },
+  devtool: 'eval-source-map',
   devServer: {
     port: 3000,
     open: true,
     historyApiFallback: true,
   },
-  plugins: [new HWP({ template: path.join(__dirname, "/public/index.html") })],
+  plugins: [
+    new HWP({ template: path.join(__dirname, "/public/index.html") }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        CUSTOM_PATH: JSON.stringify(process.env.CUSTOM_PATH)
+      }
+    })
+  ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
   }

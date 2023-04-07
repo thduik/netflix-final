@@ -2,6 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { AuthContextProvider } from "./authContext/AuthContext";
+import configApp from "./configHelpers/configApp";
+
+
+
+configApp()
 
 ReactDOM.render(
   <React.StrictMode>

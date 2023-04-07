@@ -10,7 +10,9 @@ export const loginFailure = () => ({
 });
 
 //logout
-
+export const registerSuccess = () => ({
+  type: "REGISTER_SUCCESS"
+})
 export const logout = () => ({
   type: "LOGOUT",
 });

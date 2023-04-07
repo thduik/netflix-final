@@ -14,7 +14,7 @@ const Home = ({ type }) => {
       console.log("getRandomLists called");
       try {
         const res = await axios.get(
-          `lists${type ? "?type=" + type : ""}${
+          `api/lists${type ? "?type=" + type : ""}${
             genre ? "&genre=" + genre : ""
           }`,
           {

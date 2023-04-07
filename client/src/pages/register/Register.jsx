@@ -1,48 +1,52 @@
 import axios from "axios";
 import { useRef } from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 // import { useHistory } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { register } from "../../authContext/apiCalls";
+import { AuthContext } from "../../authContext/AuthContext";
 import "./register.scss";
 
 export default function Register() {
+
+  // const history = useHistory();
+  const navigate = useNavigate();
+  const authContext = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  // const history = useHistory();
-  const navigate = useNavigate();
+  const [emailDone, setEmailDone] = useState(false);
 
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const usernameRef = useRef();
 
   const handleStart = () => {
-    console.log("handleStart pressed")
-    setEmail(emailRef.current.value);
+    // console.log("handleStart pressed", emailRef.current.value)
+    // setEmail(emailRef.current.value);
+    setEmailDone(true)
+
   };
+
   const handleFinish = async (e) => {
     e.preventDefault();
-    console.log("handleFinish pressed")
 
-    // setPassword(passwordRef.current.value);
-    // setUsername(usernameRef.current.value);
+    console.log("handleFinishRegister pressed. password is: ", password, "username is:", username);
 
-    const password = passwordRef.current.value;
-    const username = usernameRef.current.value;
-    try {
-      console.log("handleFinish uname is: ", username, " pass is ", password)
-      await axios.post("auth/register", { email,username, password });
-      // history.push("/login");
-      navigate("/login")
-
-    } catch (err) {}
+    const userData = {'email':email, 'username':username, 'password':password};
+    register(userData, authContext.dispatch,()=>navigate("/login"))
+    setEmailDone(false);
   };
   const handleLoginButton = (e) => {
     e.preventDefault()
     console.log("handleLoginButton pressed")
     // history.push("/login");
+    
     navigate("/login")
   }
+
+  // const handleEmailChange = (e) => {
+  //   setEmail(e.target.value)
+  // }
+
   return (
     <div className="register">
       <p>sadasdasds</p>
@@ -63,9 +67,9 @@ export default function Register() {
         <p>
           Ready to watch? Enter your email to create or restart your membership.
         </p>
-        {!email ? (
+        {!emailDone ? (
           <div className="input">
-            <input type="email" placeholder="email address" ref={emailRef} />
+            <input type="email" placeholder="email address" onChange={(e)=>{setEmail(e.target.value)}}/>
             <button className="registerButton" onClick={handleStart}>
               Get Started
             </button>
@@ -73,8 +77,8 @@ export default function Register() {
           </div>
         ) : (
           <form className="input">
-            <input type="username" placeholder="username" ref={usernameRef} />
-            <input type="password" placeholder="password" ref={passwordRef} />
+            <input type="username" placeholder="username" onChange={(e)=>{setUsername(e.target.value)}} />
+            <input type="password" placeholder="password" onChange={(e)=>{setPassword(e.target.value)}}/>
             <button className="registerButton" onClick={handleFinish}>
               Start
             </button>
