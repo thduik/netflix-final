@@ -7,13 +7,30 @@ const userRoute = require("./routes/users");
 const movieRoute = require("./routes/movies");
 const listRoute = require("./routes/lists");
 const path = require("path");
+const redis = require('redis');
 
 const addAdminSeed = require("./addAdminSeed");
 dotenv.config();
 
 
+
 const DIST_DIR = path.join(__dirname, "../client/dist");
 app.use(express.static(DIST_DIR));
+
+const redisPort = process.env.PORT || 6379;  // Replace with your redis port
+const redisHost = "127.0.0.1";  // Replace with your redis host
+const redisClient = redis.createClient({
+    socket: {
+      port: redisPort,
+      host: redisHost,
+    }
+  });
+
+// const redisClient = redis.createClient(6379)
+
+redisClient.connect().catch((err)=>{
+  console.log("redis err:", err)
+})
 
 mongoose
   .connect(process.env.MONGO_URL, {
