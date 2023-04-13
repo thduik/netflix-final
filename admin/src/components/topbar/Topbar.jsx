@@ -1,8 +1,12 @@
 import React from "react";
 import "./topbar.css";
 import { NotificationsNone, Language, Settings } from "@material-ui/icons";
+import SettingsDropdown from "../settingsDropdown/SettingsDropdown";
 
 export default function Topbar() {
+  const handleSettingsClick = () => {
+    console.log("handleSettingsClick")
+  }
   return (
     <div className="topbar">
       <div className="topbarWrapper">
@@ -18,8 +22,11 @@ export default function Topbar() {
             <Language />
             <span className="topIconBadge">2</span>
           </div>
-          <div className="topbarIconContainer">
+          {/* <div onClick={handleSettingsClick} className="topbarIconContainer">
             <Settings />
+          </div> */}
+          <div>
+            <SettingsDropdown/>
           </div>
           <img src="https://images.pexels.com/photos/1526814/pexels-photo-1526814.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" alt="" className="topAvatar" />
         </div>

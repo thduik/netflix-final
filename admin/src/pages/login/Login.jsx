@@ -13,9 +13,11 @@ export default function Login() {
     console.log("handleLogin login.jsx called")
     login({ email, password }, dispatch);
   };
+  console.log("loginPage rendered")
 
   return (
     <div className="login">
+      <p>Login page</p>
       <form className="loginForm">
         <input
           type="text"

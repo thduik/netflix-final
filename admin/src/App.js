@@ -26,7 +26,7 @@ import NewMovie from "./pages/newMovie/NewMovie";
 
 function App() {
   const { user } = useContext(AuthContext);
-  
+  console.log("user authContext is:", user)
   return (
     <Router>
       <p>app.js router</p>
@@ -35,7 +35,7 @@ function App() {
 
 
         {/*real code*/}
-        <Route path="/login" element={user ? <Home /> : <Login />} />
+        <Route path="/" element={user ? null : <Login />} />
       </Routes>
       {user && (
         <>
