@@ -6,10 +6,13 @@ function verify(req, res, next) {
     const token = authHeader.split(" ")[1];
 
     jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
+      
       if (err) {
-        console.log("Token is not valid!")
+        // console.log("Token is not valid!")
+        throw("verify Token is not valid!")
         res.status(403).json("Token is not valid!");
       }
+      console.log("verify req.user is:", req.user, "jwt user is:", user)
       req.user = user;
       next();
     });

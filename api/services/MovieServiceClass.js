@@ -1,7 +1,8 @@
+
 export function createNewMovie(movieData) {
     //create new movie in db
-
-    createMovieInCache(movieData)
+    saveMovieToDb(movieData);
+    createMovieInCache(movieData);
 }
 
 class MovieService {

@@ -1,36 +1,43 @@
 const router = require("express").Router();
 const List = require("../models/List");
-const verify = require("../verifyToken");
-
+const verify = require("../middlewares/verifyToken");
+const adminAuth = require("../middlewares/adminAuth");
 //CREATE
 
-router.post("/", verify, async (req, res) => {
-  if (req.user.isAdmin) {
-    const newList = new List(req.body);
+router.post("/", verify, adminAuth, async (req, res) => {
+  console.log("router post called")
+ 
+  // const isAdmin = req.user.isAdmin;
+  const newList = new List(req.body);
     try {
       const savedList = await newList.save();
       res.status(201).json(savedList);
     } catch (err) {
       res.status(500).json(err);
     }
-  } else {
-    res.status(403).json("You are not allowed!");
-  }
+
+  
 });
 
 //DELETE
 
-router.delete("/:id", verify, async (req, res) => {
-  if (req.user.isAdmin) {
-    try {
-      await List.findByIdAndDelete(req.params.id);
-      res.status(201).json("The list has been delete...");
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  } else {
-    res.status(403).json("You are not allowed!");
+router.delete("/:id", verify, adminAuth, async (req, res) => {
+  try {
+    await List.findByIdAndDelete(req.params.id);
+    res.status(201).json("The list has been delete...");
+  } catch (err) {
+    res.status(500).json(err);
   }
+  // if (req.user.isAdmin) {
+  //   try {
+  //     await List.findByIdAndDelete(req.params.id);
+  //     res.status(201).json("The list has been delete...");
+  //   } catch (err) {
+  //     res.status(500).json(err);
+  //   }
+  // } else {
+  //   res.status(403).json("You are not allowed!");
+  // }
 });
 
 //GET

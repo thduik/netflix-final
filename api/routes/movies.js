@@ -1,57 +1,87 @@
 const router = require("express").Router();
 const Movie = require("../models/Movie");
-const verify = require("../verifyToken");
-
+const verify = require("../middlewares/verifyToken");
+const loggerLog = require("../utils/loggerLog")
+const adminAuth = require("../middlewares/adminAuth")
 //CREATE
 
-router.post("/", verify, async (req, res) => {
-  if (req.user.isAdmin) {
-    const newMovie = new Movie(req.body);
+router.post("/", verify, adminAuth, async (req, res) => {
+  const movieData = req.body;
     try {
       const savedMovie = await newMovie.save();
       res.status(201).json(savedMovie);
     } catch (err) {
       res.status(500).json(err);
     }
-  } else {
-    res.status(403).json("You are not allowed!");
-  }
+
+  // if (req.user.isAdmin) {
+  //   const newMovie = new Movie(req.body);
+  //   try {
+  //     const savedMovie = await newMovie.save();
+  //     res.status(201).json(savedMovie);
+  //   } catch (err) {
+  //     res.status(500).json(err);
+  //   }
+  // } else {
+  //   res.status(403).json("You are not allowed!");
+  // }
 });
 
 //UPDATE
 
-router.put("/:id", verify, async (req, res) => {
-  if (req.user.isAdmin) {
-    try {
-      const updatedMovie = await Movie.findByIdAndUpdate(
-        req.params.id,
-        {
-          $set: req.body,
-        },
-        { new: true }
-      );
-      res.status(200).json(updatedMovie);
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  } else {
-    res.status(403).json("You are not allowed!");
+router.put("/:id", verify, adminAuth, async (req, res) => {
+  try {
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json(updatedMovie);
+  } catch (err) {
+    res.status(500).json(err);
   }
+  // if (req.user.isAdmin) {
+  //   try {
+  //     const updatedMovie = await Movie.findByIdAndUpdate(
+  //       req.params.id,
+  //       {
+  //         $set: req.body,
+  //       },
+  //       { new: true }
+  //     );
+  //     res.status(200).json(updatedMovie);
+  //   } catch (err) {
+  //     res.status(500).json(err);
+  //   }
+  // } else {
+  //   res.status(403).json("You are not allowed!");
+  // }
 });
 
 //DELETE
 
-router.delete("/:id", verify, async (req, res) => {
-  if (req.user.isAdmin) {
-    try {
-      await Movie.findByIdAndDelete(req.params.id);
-      res.status(200).json("The movie has been deleted...");
-    } catch (err) {
-      res.status(500).json(err);
-    }
-  } else {
-    res.status(403).json("You are not allowed!");
+router.delete("/:id", verify, adminAuth, async (req, res) => {
+  
+  try {
+    await Movie.findByIdAndDelete(req.params.id);
+    res.status(200).json("The movie has been deleted...");
+  } catch (err) {
+    res.status(500).json(err);
   }
+
+  // if (req.user.isAdmin) {
+
+  //   try {
+  //     await Movie.findByIdAndDelete(req.params.id);
+  //     res.status(200).json("The movie has been deleted...");
+  //   } catch (err) {
+  //     res.status(500).json(err);
+  //   }
+  // } else {
+  //   res.status(403).json("You are not allowed!");
+  // }
 });
 
 //GET
@@ -98,10 +128,16 @@ router.get("/random", verify, async (req, res) => {
 //GET ALL
 
 router.get("/", verify, async (req, res) => {
-  if (req.user.isAdmin) {
+  loggerLog("moviesRouteGet called")
+  // const isAdmin = req.user.isAdmin || true;
+  const isAdmin = true;
+
+  if (isAdmin) {
     try {
+      loggerLog("moviesRouteGet success")
       const movies = await Movie.find();
-      res.status(200).json(movies.reverse());
+      // res.status(200).json(movies.reverse());
+      // res.send("lol")
     } catch (err) {
       res.status(500).json(err);
     }
