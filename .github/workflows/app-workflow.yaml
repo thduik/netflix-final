@@ -13,7 +13,9 @@ env:
 
 jobs:
   test:
-    runs-on: self-hosted
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
+
 
     # services:
     #   https://github.com/actions/example-services/blob/master/.github/workflows/postgres-service.yml
@@ -36,7 +38,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [18.x]
+        # node-version: [12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2
