@@ -17,10 +17,10 @@ jobs:
     with:
       node-version: $({matrix.node-version})
   - run:
-    cd api
-    npm install
-    node index.js
-    cd ..
+    # cd api
+    # npm install
+    # node index.js
+    # cd ..
     cd client
     npm install
     npm run dev
