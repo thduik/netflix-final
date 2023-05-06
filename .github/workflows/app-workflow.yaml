@@ -47,4 +47,4 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
   
-  
+    - run: node -v
