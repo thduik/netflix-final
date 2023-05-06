@@ -1,3 +1,5 @@
+#https://github.com/jonathanong/github-actions-workflow-templates/blob/master/node-server/.github/workflows/node.js.yml
+
 name: Node.js CI
 
 on: push
@@ -11,7 +13,7 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     # services:
     #   https://github.com/actions/example-services/blob/master/.github/workflows/postgres-service.yml
@@ -41,3 +43,5 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+  
+  
