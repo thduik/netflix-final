@@ -47,7 +47,5 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
   
-    - run: 
-      node -v
-      cd api 
-      npm install
+    - run: node -v
+     
