@@ -48,6 +48,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
   
     - run: node -v
-    - run: cd api && npm install && node index
-    - run: cd client && npm install && npm start
+    - run: cd api && npm install 
+    - run: cd client && npm install 
    
