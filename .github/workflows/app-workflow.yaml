@@ -13,8 +13,8 @@ env:
 
 jobs:
   test:
-    runs-on: self-hosted
-    # runs-on: ubuntu-latest
+    # runs-on: self-hosted
+    runs-on: ubuntu-latest
 
 
     # services:
@@ -48,4 +48,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
   
     - run: node -v
-     
+    - run: npm install
